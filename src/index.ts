@@ -7,8 +7,7 @@ var mysql = require('mysql');
 
 const main = async () => {
 
-    
-
+    try{
         const conn = mysql.createConnection({
             type: 'sql',
 			host: 'localhost',
@@ -18,8 +17,10 @@ const main = async () => {
 			database: 'test-orm',
            });
 		console.log('Connected to sql');
-
-		
-
+    }catch(err){
+        console.log('error connecting')
+        throw new Error("Unable to connect!")
+    }       
 
 }
+main()

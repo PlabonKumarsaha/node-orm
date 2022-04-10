@@ -1,0 +1,4 @@
+npm init -> init package.json
+2. add tsconfig.json
+3. npm i express, @types/express ts-node,@types/express, sql,ts-node, typeorm, typescript
+4. npm i -g node-ts mysql
