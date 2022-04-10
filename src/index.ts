@@ -1,33 +1,22 @@
-import { createConnection } from 'typeorm';
-import express from 'express';
-import { Client } from './entities/Client';
+import { AppDataSource } from "./data-source";
+import { User } from "./entity/User";
 
+AppDataSource.initialize()
+  .then(async () => {
+    console.log("Inserting a new user into the database...");
+    const user = new User();
+    user.firstName = "Timber";
+    user.lastName = "Saw";
+    user.age = 25;
+    await AppDataSource.manager.save(user);
+    console.log("Saved a new user with id: " + user.id);
 
-var mysql = require('mysql');
+    console.log("Loading users from the database...");
+    const users = await AppDataSource.manager.find(User);
+    console.log("Loaded users: ", users);
 
-
-const main = async () => {
-
-    try{
-        const conn = await createConnection({
-            type:"mysql",
-			host: 'localhost',
-			port: 3306,
-			username: 'root',
-			password: '12345',
-			database: 'test-orm',
-            entities : [Client],
-			synchronize: true,
-           }).then(()=>{
-               console.log('Connected to sql');
-           });
-
-    }catch(err){
-        console.log('error connecting')
-        throw new Error("Unable to connect!")
-    }       
-
-}
-let obj =main()
-
-console.log(obj)
+    console.log(
+      "Here you can setup and run express / fastify / any other framework."
+    );
+  })
+  .catch((error) => console.log(error));
